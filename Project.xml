@@ -4,7 +4,7 @@
 
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="PMD Textbox Creator" file="PMDTC" main="Main" version="v1.0" company="Bogdan4D" />
+	<app title="PMD Dialog Creator" file="PMDDC" main="Main" version="v1.0" company="Bogdan4D" />
 
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->

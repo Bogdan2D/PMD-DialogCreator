@@ -10,8 +10,12 @@ import flixel.tweens.FlxTween;
 
 class DebugTab extends FlxUITabMenu
 {
-	var optionTabs = [{name: 'General', label: 'General'}, {name: 'Presets', label: 'Presets'}];
-	var generalTab:FlxUI;
+	var optionTabs = [
+		{name: 'General', label: 'General'},
+		{name: 'Customize', label: 'Customize'},
+		{name: 'Presets', label: 'Presets'}
+	];
+	var customizeTab:FlxUI;
 
 	var initPos:FlxPoint;
 
@@ -28,10 +32,10 @@ class DebugTab extends FlxUITabMenu
 		initPos = new FlxPoint(X, Y);
 		color = 0xFF292929;
 
-		generalTab = new FlxUI(null, this);
-		generalTab.name = "General";
+		customizeTab = new FlxUI(null, this);
+		customizeTab.name = "Customize";
 
-		addGroup(generalTab);
+		addGroup(customizeTab);
 		//-----[GENERAL]-----\\
 		selectThemeBtn = new FlxUIButton(15, 20, 'BOX + PORTRAIT', () -> PlayState.instance.openSubState(new TextureSelectorSubstate(themes)));
 		selectThemeBtn.color = 0xFF000000;
@@ -60,10 +64,10 @@ class DebugTab extends FlxUITabMenu
 		selectIconBtn.label.size += 10;
 		selectIconBtn.resize(170, 20);
 
-		generalTab.add(selectThemeBtn);
-		generalTab.add(selectBoxBtn);
-		generalTab.add(selectPortraitBtn);
-		generalTab.add(selectIconBtn);
+		customizeTab.add(selectThemeBtn);
+		customizeTab.add(selectBoxBtn);
+		customizeTab.add(selectPortraitBtn);
+		customizeTab.add(selectIconBtn);
 	}
 
 	var shouldBeOnScreen:Bool = true;

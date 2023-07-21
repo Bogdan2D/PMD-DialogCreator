@@ -35,7 +35,8 @@ class PlayState extends FlxState
 		text: "Blah blah blah",
 		iconTexture: 'assets/images/icons/icon_386.png',
 		portraitTexture: 'assets/images/portraits/rt.png',
-		boxTexture: 'assets/images/boxes/rt.png'
+		boxTexture: 'assets/images/boxes/rt.png',
+		iconFlipped: false
 	}
 
 	override public function create()
@@ -60,6 +61,7 @@ class PlayState extends FlxState
 		icon = new FlxSprite(36, 144, _sceneData.iconTexture);
 		icon.setGraphicSize(80, 80);
 		icon.updateHitbox();
+		icon.flipX = _sceneData.iconFlipped;
 
 		text = new FlxText(textBox.x + 20, textBox.y + 15, 440, (_sceneData.namePrefixEnabled) ? _sceneData.name + ': ' + _sceneData.text : _sceneData.text);
 		text.setFormat('assets/data/Fonts/PKMN-Mystery-Dungeon.ttf', 32, 0xFFFFFFFF, LEFT);
@@ -159,4 +161,7 @@ class PlayState extends FlxState
 		icon.setGraphicSize(80, 80);
 		icon.updateHitbox();
 	}
+
+	public function flipIcon(flipped:Bool):Void
+		icon.flipX = _sceneData.iconFlipped = flipped;
 }

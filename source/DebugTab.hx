@@ -3,6 +3,7 @@ package;
 import flixel.FlxG;
 import flixel.addons.ui.FlxUI;
 import flixel.addons.ui.FlxUIButton;
+import flixel.addons.ui.FlxUICheckBox;
 import flixel.addons.ui.FlxUITabMenu;
 import flixel.math.FlxPoint;
 import flixel.tweens.FlxEase;
@@ -23,6 +24,8 @@ class DebugTab extends FlxUITabMenu
 	public var selectBoxBtn:FlxUIButton;
 	public var selectPortraitBtn:FlxUIButton;
 	public var selectIconBtn:FlxUIButton;
+	public var genderToggleCheckbox:FlxUICheckBox;
+	public var flipIcon:FlxUICheckBox;
 
 	public function new(X, Y):Void
 	{
@@ -64,10 +67,28 @@ class DebugTab extends FlxUITabMenu
 		selectIconBtn.label.size += 10;
 		selectIconBtn.resize(170, 20);
 
+		genderToggleCheckbox = new FlxUICheckBox(15, 95, 'assets/images/icon_M.png', 'assets/images/icon_F.png', 'Toggle Type');
+		genderToggleCheckbox.button.setSize(16, 16);
+		genderToggleCheckbox.box.setGraphicSize(16, 16);
+		genderToggleCheckbox.box.updateHitbox();
+		genderToggleCheckbox.mark.setGraphicSize(16, 16);
+		genderToggleCheckbox.mark.updateHitbox();
+		genderToggleCheckbox.textX = 0;
+		genderToggleCheckbox.button.label.font = 'assets/data/Fonts/PKMN-Mystery-Dungeon.ttf';
+		genderToggleCheckbox.button.label.size += 10;
+		genderToggleCheckbox.textIsClickable = true;
+
+		flipIcon = new FlxUICheckBox(110, 95, null, null, 'Flip Icon');
+		flipIcon.button.label.font = 'assets/data/Fonts/PKMN-Mystery-Dungeon.ttf';
+		flipIcon.button.label.size += 10;
+		flipIcon.callback = () -> PlayState.instance.flipIcon(flipIcon.checked);
+
 		customizeTab.add(selectThemeBtn);
 		customizeTab.add(selectBoxBtn);
 		customizeTab.add(selectPortraitBtn);
 		customizeTab.add(selectIconBtn);
+		customizeTab.add(genderToggleCheckbox);
+		customizeTab.add(flipIcon);
 	}
 
 	var shouldBeOnScreen:Bool = true;

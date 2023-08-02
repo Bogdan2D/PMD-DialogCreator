@@ -7,9 +7,11 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
+import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import haxe.io.Path;
 import openfl.Assets;
 import sys.FileSystem;
 import sys.thread.Thread;
@@ -27,6 +29,8 @@ enum TexBrowseFilters
 // NOTICE: FIX THIS UP WHILE ON HOLIDAY.
 class TextureSelectorSubstate extends FlxSubState
 {
+	var allowedImgExtensions:Array<String> = ['png', 'jpg', 'jpeg', 'bmp'];
+
 	var header:FlxText;
 	var optionGrp:FlxTypedSpriteGroup<TexSelectorObject>;
 	var optionHighlighter:FlxSprite;
@@ -43,19 +47,15 @@ class TextureSelectorSubstate extends FlxSubState
 		header = new FlxText(0, 10, FlxG.width);
 		header.setFormat('assets/data/Fonts/PKMN-Mystery-Dungeon.ttf', 40, 0xFFFFFF00, CENTER, SHADOW, 0xFF000000);
 
-		switch (filter)
+		header.text = switch (filter)
 		{
-			case themes:
-				header.text = 'SELECT THEME';
-			case boxes:
-				header.text = 'SELECT BOX';
-			case portraits:
-				header.text = 'SELECT PORTRAIT';
-			case icons:
-				header.text = 'SELECT ICON';
-			default:
-				header.text = 'SELECT OBJECT';
+			case themes: 'SELECT THEME';
+			case boxes: 'SELECT BOX';
+			case portraits: 'SELECT PORTRAIT';
+			case icons: 'SELECT ICON';
+			default: 'SELECT OBJECT';
 		}
+
 		optionHighlighter = new FlxSprite('assets/images/boxHighlighter.png');
 		optionHighlighter.visible = false;
 		optionHighlighter.setGraphicSize(96, 116);
@@ -70,34 +70,48 @@ class TextureSelectorSubstate extends FlxSubState
 		var row:Int = 0;
 		var rowFull:Bool = false;
 
-		var dirPath = (filter != icons) ? 'assets/images/boxes' : 'assets/images/icons';
-		var dir = (FileSystem.readDirectory(dirPath));
-		for (graphic in dir)
+		var dirPath = switch (filter)
 		{
-			// if (FileSystem.isDirectory(dirPath + '/$graphic'))
-			// continue;
+			case themes: 'assets/images/portraits';
+			case boxes: 'assets/images/boxes';
+			case portraits: 'assets/images/portraits';
+			case icons: 'assets/images/icons';
+		}
 
-			var displayImg:String;
-			switch (filter)
+		// var dir = (FileSystem.readDirectory(dirPath));
+		for (graphic in FileSystem.readDirectory(dirPath))
+		{
+			var _isGraphicAllowed:Bool = false;
+			var _canSwap:Bool = false;
+
+			if (FileSystem.isDirectory(dirPath + '/$graphic'))
 			{
-				case themes: // only show up the ones with both
-					if (!FileSystem.exists('assets/images/portraits/$graphic') || !FileSystem.exists('assets/images/boxes/$graphic'))
-						continue;
-					displayImg = 'assets/images/portraits/$graphic';
-				case boxes:
-					if (FileSystem.exists('assets/images/portraits/$graphic'))
-						displayImg = 'assets/images/portraits/$graphic';
-					else
-						displayImg = 'assets/images/boxes/$graphic';
+				if (!FileSystem.exists(dirPath + '/$graphic/' + 'M.png'))
+					continue;
 
-				case icons:
-					displayImg = 'assets/images/icons/$graphic';
+				if (!FileSystem.exists(dirPath + '/$graphic/' + 'F.png'))
+					continue;
 
-				case portraits:
-					displayImg = 'assets/images/portraits/$graphic';
+				_canSwap = true;
+			}
+			else
+			{
+				for (extension in allowedImgExtensions)
+				{
+					if (Path.extension(graphic) == extension)
+					{
+						_isGraphicAllowed = true;
+						break;
+					}
+				}
+
+				if (!_isGraphicAllowed)
+				{
+					trace('FILE $graphic IS NOT SUPPORTED. (Isnt an image. Should only use the following extensions: $allowedImgExtensions');
+					continue;
+				}
 			}
 
-			trace(displayImg);
 			var pos = new FlxPoint();
 			pos.x = 13;
 			pos.y = 60 + row * 120;
@@ -117,13 +131,21 @@ class TextureSelectorSubstate extends FlxSubState
 			switch (filter)
 			{
 				case themes:
-					optionGrp.add(new TexSelectorObject(pos.x, pos.y, 'assets/images/boxes/$graphic', displayImg)); // issues may appear. be on the lookout
+					if (!FileSystem.exists('assets/images/portraits/$graphic') || !FileSystem.exists('assets/images/boxes/$graphic'))
+						continue;
+
+					optionGrp.add(new TexSelectorObject(pos.x, pos.y, 'assets/images/boxes/$graphic', 'assets/images/portraits/$graphic'));
 				case boxes:
-					optionGrp.add(new TexSelectorObject(pos.x, pos.y, 'assets/images/boxes/$graphic', displayImg));
+					var _portraitPreview:String = null;
+
+					if (FileSystem.exists('assets/images/portraits/$graphic'))
+						_portraitPreview = 'assets/images/portraits/$graphic';
+
+					optionGrp.add(new TexSelectorObject(pos.x, pos.y, 'assets/images/boxes/$graphic', _portraitPreview, _canSwap));
 				case portraits:
-					optionGrp.add(new TexSelectorObject(pos.x, pos.y, 'assets/images/portraits/$graphic', displayImg));
+					optionGrp.add(new TexSelectorObject(pos.x, pos.y, 'assets/images/portraits/$graphic', _canSwap));
 				case icons:
-					optionGrp.add(new TexSelectorObject(pos.x, pos.y, 'assets/images/icons/$graphic', displayImg));
+					optionGrp.add(new TexSelectorObject(pos.x, pos.y, 'assets/images/icons/$graphic'));
 				default:
 					trace('idk bro');
 			}
@@ -171,6 +193,10 @@ class TextureSelectorSubstate extends FlxSubState
 			}
 		}
 		//////////////////////////////
+
+		if (FlxG.keys.anyJustPressed([ESCAPE, BACKSPACE, X]))
+			close();
+
 		if (FlxG.keys.pressed.UP)
 		{
 			if (!FlxG.keys.pressed.SHIFT)
@@ -210,14 +236,18 @@ class TexSelectorObject extends FlxSpriteGroup
 	public var nbIcon:FlxSprite;
 
 	// ADD A GENDER VERSION ICON TO SHOW THERE IS ONE THAT EXISTS
-	public function new(X, Y, path:String, displayImg:String):Void
+	public function new(X, Y, path:String, ?previewImg:FlxGraphicAsset = null, _canSwap:Bool = false):Void
 	{
 		super(X, Y);
+
+		if (_canSwap)
+			path += '/M.png';
 
 		graphicName = path;
 
 		imagePreview = new FlxSprite();
-		imagePreview.loadGraphic(displayImg);
+		imagePreview.loadGraphic(previewImg != null ? previewImg : path);
+
 		imagePreview.setGraphicSize(90, 90);
 		imagePreview.updateHitbox();
 
@@ -229,7 +259,8 @@ class TexSelectorObject extends FlxSpriteGroup
 		nbIcon.updateHitbox();
 
 		add(imagePreview);
-		add(nbIcon);
+		if (!_canSwap)
+			add(nbIcon);
 		add(imageName);
 	}
 }

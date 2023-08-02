@@ -21,7 +21,8 @@ class PlayState extends FlxState
 
 	var _debugTab:DebugTab;
 
-	var text:FlxText;
+	public var text:FlxText;
+
 	var testText:FlxBitmapText;
 	var textBox:FlxSprite;
 	var portrait:FlxSprite;
@@ -29,10 +30,10 @@ class PlayState extends FlxState
 
 	var sessionSavedFile:Int = 0;
 
-	var _sceneData = {
+	public var _sceneData = {
 		name: "???",
 		namePrefixEnabled: true,
-		text: "Blah blah blah",
+		text: "Blah blah blah...",
 		iconTexture: 'assets/images/icons/icon_386.png',
 		portraitTexture: 'assets/images/portraits/rt.png',
 		boxTexture: 'assets/images/boxes/rt.png',
@@ -86,23 +87,24 @@ class PlayState extends FlxState
 				i++;
 			}
 		 */
-
-		Lib.current.stage.addEventListener(KeyboardEvent.KEY_DOWN, function(k:KeyboardEvent)
-		{
-			// f11 fullscreen cause why not :3
-			if (k.keyCode == Keyboard.F11)
-				FlxG.fullscreen = !FlxG.fullscreen;
-			else if (k.keyCode != Keyboard.SHIFT || k.keyCode != Keyboard.ALTERNATE)
+		/*
+			Lib.current.stage.addEventListener(KeyboardEvent.KEY_DOWN, function(k:KeyboardEvent)
 			{
-				if (k.keyCode == Keyboard.BACKSPACE)
-					_sceneData.text = _sceneData.text.substring(0, _sceneData.text.length - 1);
-				else
-					_sceneData.text += String.fromCharCode(k.charCode);
+				// f11 fullscreen cause why not :3
+				if (k.keyCode == Keyboard.F11)
+					FlxG.fullscreen = !FlxG.fullscreen;
+				else if (k.keyCode != Keyboard.SHIFT || k.keyCode != Keyboard.ALTERNATE)
+				{
+					if (k.keyCode == Keyboard.BACKSPACE)
+						_sceneData.text = _sceneData.text.substring(0, _sceneData.text.length - 1);
+					else
+						_sceneData.text += String.fromCharCode(k.charCode);
 
-				text.text = (_sceneData.namePrefixEnabled) ? _sceneData.name + ': ' + _sceneData.text : _sceneData.text;
-				// trace(text.text);
-			}
-		});
+					text.text = (_sceneData.namePrefixEnabled) ? _sceneData.name + ': ' + _sceneData.text : _sceneData.text;
+					// trace(text.text);
+				}
+			});
+		 */
 	}
 
 	override public function update(elapsed:Float)

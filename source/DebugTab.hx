@@ -4,10 +4,12 @@ import flixel.FlxG;
 import flixel.addons.ui.FlxUI;
 import flixel.addons.ui.FlxUIButton;
 import flixel.addons.ui.FlxUICheckBox;
+import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUITabMenu;
 import flixel.math.FlxPoint;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.util.FlxTimer;
 
 class DebugTab extends FlxUITabMenu
 {
@@ -16,16 +18,19 @@ class DebugTab extends FlxUITabMenu
 		{name: 'Customize', label: 'Customize'},
 		{name: 'Presets', label: 'Presets'}
 	];
+	var generalTab:FlxUI;
 	var customizeTab:FlxUI;
 
 	var initPos:FlxPoint;
 
-	public var selectThemeBtn:FlxUIButton;
-	public var selectBoxBtn:FlxUIButton;
-	public var selectPortraitBtn:FlxUIButton;
-	public var selectIconBtn:FlxUIButton;
-	public var genderToggleCheckbox:FlxUICheckBox;
-	public var flipIcon:FlxUICheckBox;
+	public var general_editText:FlxUIInputText;
+
+	public var customize_selectThemeBtn:FlxUIButton;
+	public var customize_selectBoxBtn:FlxUIButton;
+	public var customize_selectPortraitBtn:FlxUIButton;
+	public var customize_selectIconBtn:FlxUIButton;
+	public var customize_genderToggleCheckbox:FlxUICheckBox;
+	public var customize_flipIcon:FlxUICheckBox;
 
 	public function new(X, Y):Void
 	{
@@ -38,57 +43,74 @@ class DebugTab extends FlxUITabMenu
 		customizeTab = new FlxUI(null, this);
 		customizeTab.name = "Customize";
 
+		generalTab = new FlxUI(null, this);
+		generalTab.name = "General";
+
+		addGroup(generalTab);
 		addGroup(customizeTab);
 		//-----[GENERAL]-----\\
-		selectThemeBtn = new FlxUIButton(15, 20, 'BOX + PORTRAIT', () -> PlayState.instance.openSubState(new TextureSelectorSubstate(themes)));
-		selectThemeBtn.color = 0xFF000000;
-		selectThemeBtn.label.color = 0xFFFFFFFF;
-		selectThemeBtn.label.font = 'assets/data/Fonts/PKMN-Mystery-Dungeon.ttf';
-		selectThemeBtn.label.size += 10;
-		selectThemeBtn.resize(170, 20);
+		final ps = PlayState.instance;
 
-		selectBoxBtn = new FlxUIButton(15, 45, 'BOX', () -> PlayState.instance.openSubState(new TextureSelectorSubstate(boxes)));
-		selectBoxBtn.color = 0xFF000000;
-		selectBoxBtn.label.color = 0xFFFFFFFF;
-		selectBoxBtn.label.font = 'assets/data/Fonts/PKMN-Mystery-Dungeon.ttf';
-		selectBoxBtn.label.size += 10;
+		general_editText = new FlxUIInputText(10, 10, 150, PlayState.instance._sceneData.text, 16, 0xFF000000, 0xFFFFFFFF);
+		general_editText.font = 'assets/data/Fonts/PKMN-Mystery-Dungeon.ttf';
+		general_editText.lines = 1;
+		general_editText.callback = (s1, s2) ->
+		{
+			ps._sceneData.text = s1;
+			ps.text.text = (ps._sceneData.namePrefixEnabled) ? ps._sceneData.name + ': ' + ps._sceneData.text : ps._sceneData.text;
+		}
 
-		selectPortraitBtn = new FlxUIButton(selectBoxBtn.x + 10 + selectBoxBtn.width, 45, 'PORTRAIT',
+		generalTab.add(general_editText);
+		//-----[CUSTOMIZE]-----\\
+		customize_selectThemeBtn = new FlxUIButton(15, 20, 'BOX + PORTRAIT', () -> PlayState.instance.openSubState(new TextureSelectorSubstate(themes)));
+		customize_selectThemeBtn.color = 0xFF000000;
+		customize_selectThemeBtn.label.color = 0xFFFFFFFF;
+		customize_selectThemeBtn.label.font = 'assets/data/Fonts/PKMN-Mystery-Dungeon.ttf';
+		customize_selectThemeBtn.label.size += 10;
+		customize_selectThemeBtn.resize(170, 20);
+
+		customize_selectBoxBtn = new FlxUIButton(15, 45, 'BOX', () -> PlayState.instance.openSubState(new TextureSelectorSubstate(boxes)));
+		customize_selectBoxBtn.color = 0xFF000000;
+		customize_selectBoxBtn.label.color = 0xFFFFFFFF;
+		customize_selectBoxBtn.label.font = 'assets/data/Fonts/PKMN-Mystery-Dungeon.ttf';
+		customize_selectBoxBtn.label.size += 10;
+
+		customize_selectPortraitBtn = new FlxUIButton(customize_selectBoxBtn.x + 10 + customize_selectBoxBtn.width, 45, 'PORTRAIT',
 			() -> PlayState.instance.openSubState(new TextureSelectorSubstate(portraits)));
-		selectPortraitBtn.color = 0xFF000000;
-		selectPortraitBtn.label.color = 0xFFFFFFFF;
-		selectPortraitBtn.label.font = 'assets/data/Fonts/PKMN-Mystery-Dungeon.ttf';
-		selectPortraitBtn.label.size += 10;
+		customize_selectPortraitBtn.color = 0xFF000000;
+		customize_selectPortraitBtn.label.color = 0xFFFFFFFF;
+		customize_selectPortraitBtn.label.font = 'assets/data/Fonts/PKMN-Mystery-Dungeon.ttf';
+		customize_selectPortraitBtn.label.size += 10;
 
-		selectIconBtn = new FlxUIButton(15, 70, 'ICON', () -> PlayState.instance.openSubState(new TextureSelectorSubstate(icons)));
-		selectIconBtn.color = 0xFF000000;
-		selectIconBtn.label.color = 0xFFFFFFFF;
-		selectIconBtn.label.font = 'assets/data/Fonts/PKMN-Mystery-Dungeon.ttf';
-		selectIconBtn.label.size += 10;
-		selectIconBtn.resize(170, 20);
+		customize_selectIconBtn = new FlxUIButton(15, 70, 'ICON', () -> PlayState.instance.openSubState(new TextureSelectorSubstate(icons)));
+		customize_selectIconBtn.color = 0xFF000000;
+		customize_selectIconBtn.label.color = 0xFFFFFFFF;
+		customize_selectIconBtn.label.font = 'assets/data/Fonts/PKMN-Mystery-Dungeon.ttf';
+		customize_selectIconBtn.label.size += 10;
+		customize_selectIconBtn.resize(170, 20);
 
-		genderToggleCheckbox = new FlxUICheckBox(15, 95, 'assets/images/icon_M.png', 'assets/images/icon_F.png', 'Toggle Type');
-		genderToggleCheckbox.button.setSize(16, 16);
-		genderToggleCheckbox.box.setGraphicSize(16, 16);
-		genderToggleCheckbox.box.updateHitbox();
-		genderToggleCheckbox.mark.setGraphicSize(16, 16);
-		genderToggleCheckbox.mark.updateHitbox();
-		genderToggleCheckbox.textX = 0;
-		genderToggleCheckbox.button.label.font = 'assets/data/Fonts/PKMN-Mystery-Dungeon.ttf';
-		genderToggleCheckbox.button.label.size += 10;
-		genderToggleCheckbox.textIsClickable = true;
+		customize_genderToggleCheckbox = new FlxUICheckBox(15, 95, 'assets/images/icon_M.png', 'assets/images/icon_F.png', 'Toggle Type');
+		customize_genderToggleCheckbox.button.setSize(16, 16);
+		customize_genderToggleCheckbox.box.setGraphicSize(16, 16);
+		customize_genderToggleCheckbox.box.updateHitbox();
+		customize_genderToggleCheckbox.mark.setGraphicSize(16, 16);
+		customize_genderToggleCheckbox.mark.updateHitbox();
+		customize_genderToggleCheckbox.textX = 0;
+		customize_genderToggleCheckbox.button.label.font = 'assets/data/Fonts/PKMN-Mystery-Dungeon.ttf';
+		customize_genderToggleCheckbox.button.label.size += 10;
+		customize_genderToggleCheckbox.textIsClickable = true;
 
-		flipIcon = new FlxUICheckBox(110, 95, null, null, 'Flip Icon');
-		flipIcon.button.label.font = 'assets/data/Fonts/PKMN-Mystery-Dungeon.ttf';
-		flipIcon.button.label.size += 10;
-		flipIcon.callback = () -> PlayState.instance.flipIcon(flipIcon.checked);
+		customize_flipIcon = new FlxUICheckBox(110, 95, null, null, 'Flip Icon');
+		customize_flipIcon.button.label.font = 'assets/data/Fonts/PKMN-Mystery-Dungeon.ttf';
+		customize_flipIcon.button.label.size += 10;
+		customize_flipIcon.callback = () -> PlayState.instance.flipIcon(customize_flipIcon.checked);
 
-		customizeTab.add(selectThemeBtn);
-		customizeTab.add(selectBoxBtn);
-		customizeTab.add(selectPortraitBtn);
-		customizeTab.add(selectIconBtn);
-		customizeTab.add(genderToggleCheckbox);
-		customizeTab.add(flipIcon);
+		customizeTab.add(customize_selectThemeBtn);
+		customizeTab.add(customize_selectBoxBtn);
+		customizeTab.add(customize_selectPortraitBtn);
+		customizeTab.add(customize_selectIconBtn);
+		customizeTab.add(customize_genderToggleCheckbox);
+		customizeTab.add(customize_flipIcon);
 	}
 
 	var shouldBeOnScreen:Bool = true;

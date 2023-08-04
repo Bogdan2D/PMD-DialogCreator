@@ -59,7 +59,7 @@ class PlayState extends FlxState
 		portrait.setGraphicSize(96, 96);
 		portrait.updateHitbox();
 
-		icon = new FlxSprite(34, 144, _sceneData.iconTexture);
+		icon = new FlxSprite(32, 144, _sceneData.iconTexture);
 		icon.setGraphicSize(80, 80);
 		icon.updateHitbox();
 		icon.flipX = _sceneData.iconFlipped;

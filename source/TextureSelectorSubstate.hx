@@ -86,12 +86,12 @@ class TextureSelectorSubstate extends FlxSubState
 
 			if (FileSystem.isDirectory(dirPath + '/$graphic'))
 			{
-				if (!FileSystem.exists(dirPath + '/$graphic/' + 'M.png'))
-					continue;
+				// if (!FileSystem.exists(dirPath + '/$graphic/' + 'M.png'))
+				// continue;
 
-				if (!FileSystem.exists(dirPath + '/$graphic/' + 'F.png'))
-					continue;
-
+				// if (!FileSystem.exists(dirPath + '/$graphic/' + 'F.png'))
+				// continue;
+				continue;
 				_canSwap = true;
 			}
 			else
@@ -131,8 +131,8 @@ class TextureSelectorSubstate extends FlxSubState
 			switch (filter)
 			{
 				case themes:
-					if (!FileSystem.exists('assets/images/portraits/$graphic') || !FileSystem.exists('assets/images/boxes/$graphic'))
-						continue;
+					// if (!FileSystem.exists('assets/images/portraits/$graphic') || !FileSystem.exists('assets/images/boxes/$graphic'))
+					// continue;
 
 					optionGrp.add(new TexSelectorObject(pos.x, pos.y, 'assets/images/boxes/$graphic', 'assets/images/portraits/$graphic'));
 				case boxes:

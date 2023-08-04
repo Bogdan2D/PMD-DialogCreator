@@ -55,16 +55,16 @@ class PlayState extends FlxState
 		textBox.screenCenter();
 		textBox.y += 120;
 
-		portrait = new FlxSprite(28, 136).loadGraphic(_sceneData.portraitTexture);
+		portrait = new FlxSprite(24, 136).loadGraphic(_sceneData.portraitTexture);
 		portrait.setGraphicSize(96, 96);
 		portrait.updateHitbox();
 
-		icon = new FlxSprite(36, 144, _sceneData.iconTexture);
+		icon = new FlxSprite(34, 144, _sceneData.iconTexture);
 		icon.setGraphicSize(80, 80);
 		icon.updateHitbox();
 		icon.flipX = _sceneData.iconFlipped;
 
-		text = new FlxText(textBox.x + 20, textBox.y + 15, 440, (_sceneData.namePrefixEnabled) ? _sceneData.name + ': ' + _sceneData.text : _sceneData.text);
+		text = new FlxText(textBox.x + 22, textBox.y + 12, 440, (_sceneData.namePrefixEnabled) ? _sceneData.name + ': ' + _sceneData.text : _sceneData.text);
 		text.setFormat('assets/data/Fonts/PKMN-Mystery-Dungeon.ttf', 32, 0xFFFFFFFF, LEFT);
 		text.setBorderStyle(SHADOW, 0xFF000000, 2, 1); // fix this
 		//-----[Layering]-----\\

@@ -7,6 +7,7 @@ import flixel.addons.ui.FlxUICheckBox;
 import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUITabMenu;
 import flixel.math.FlxPoint;
+import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
@@ -23,7 +24,11 @@ class DebugTab extends FlxUITabMenu
 
 	var initPos:FlxPoint;
 
+	public var general_editTextHeader:FlxText;
 	public var general_editText:FlxUIInputText;
+	public var general_editPrefixHeader:FlxText;
+	public var general_editPrefix:FlxUIInputText;
+	public var general_usePrefix:FlxUICheckBox;
 
 	public var customize_selectThemeBtn:FlxUIButton;
 	public var customize_selectBoxBtn:FlxUIButton;
@@ -51,16 +56,50 @@ class DebugTab extends FlxUITabMenu
 		//-----[GENERAL]-----\\
 		final ps = PlayState.instance;
 
-		general_editText = new FlxUIInputText(10, 10, 150, PlayState.instance._sceneData.text, 16, 0xFF000000, 0xFFFFFFFF);
+		general_editTextHeader = new FlxText(10, 5, 150, 'Change Text');
+		general_editTextHeader.setFormat('assets/data/Fonts/PKMN-Mystery-Dungeon.ttf', 16, 0xFFFFFFFF, LEFT);
+
+		general_editText = new FlxUIInputText(10, 21, 150, PlayState.instance._sceneData.text, 16, 0xFF000000, 0xFFFFFFFF);
 		general_editText.font = 'assets/data/Fonts/PKMN-Mystery-Dungeon.ttf';
 		general_editText.lines = 1;
 		general_editText.callback = (s1, s2) ->
 		{
 			ps._sceneData.text = s1;
-			ps.text.text = (ps._sceneData.namePrefixEnabled) ? ps._sceneData.name + ': ' + ps._sceneData.text : ps._sceneData.text;
+			ps.text.resetText(ps._sceneData.text);
+			ps.text.start(0.01);
+			ps.text.skip();
 		}
 
+		general_editPrefixHeader = new FlxText(10, 40, 150, 'Change Prefix (Name)');
+		general_editPrefixHeader.setFormat('assets/data/Fonts/PKMN-Mystery-Dungeon.ttf', 16, 0xFFFFFFFF, LEFT);
+
+		general_editPrefix = new FlxUIInputText(10, 58, 150, PlayState.instance._sceneData.name, 16, 0xFF000000, 0xFFFFFFFF);
+		general_editPrefix.font = 'assets/data/Fonts/PKMN-Mystery-Dungeon.ttf';
+		general_editPrefix.lines = 1;
+		general_editPrefix.callback = (s1, s2) ->
+		{
+			ps._sceneData.name = s1;
+			ps.text.prefix = (ps._sceneData.namePrefixEnabled) ? s1 + ': ' : "";
+		}
+
+		general_usePrefix = new FlxUICheckBox(10, 85, null, null, 'Use Prefix');
+		general_usePrefix.checked = ps._sceneData.namePrefixEnabled;
+		general_usePrefix.button.label.font = 'assets/data/Fonts/PKMN-Mystery-Dungeon.ttf';
+		general_usePrefix.button.label.size += 10;
+		general_usePrefix.callback = () ->
+		{
+			PlayState.instance._sceneData.namePrefixEnabled = general_usePrefix.checked;
+			if (general_usePrefix.checked)
+				PlayState.instance.text.prefix = general_editPrefix.text + ': ';
+			else
+				PlayState.instance.text.prefix = "";
+		};
+
+		generalTab.add(general_editTextHeader);
 		generalTab.add(general_editText);
+		generalTab.add(general_editPrefixHeader);
+		generalTab.add(general_editPrefix);
+		generalTab.add(general_usePrefix);
 		//-----[CUSTOMIZE]-----\\
 		customize_selectThemeBtn = new FlxUIButton(15, 20, 'BOX + PORTRAIT', () -> PlayState.instance.openSubState(new TextureSelectorSubstate(themes)));
 		customize_selectThemeBtn.color = 0xFF000000;

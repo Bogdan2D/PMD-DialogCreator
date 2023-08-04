@@ -3,6 +3,7 @@ package;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.addons.text.FlxTypeText;
 import flixel.graphics.frames.FlxBitmapFont;
 import flixel.math.FlxPoint;
 import flixel.text.FlxBitmapText;
@@ -21,7 +22,7 @@ class PlayState extends FlxState
 
 	var _debugTab:DebugTab;
 
-	public var text:FlxText;
+	public var text:FlxTypeText;
 
 	var testText:FlxBitmapText;
 	var textBox:FlxSprite;
@@ -64,7 +65,11 @@ class PlayState extends FlxState
 		icon.updateHitbox();
 		icon.flipX = _sceneData.iconFlipped;
 
-		text = new FlxText(textBox.x + 22, textBox.y + 12, 440, (_sceneData.namePrefixEnabled) ? _sceneData.name + ': ' + _sceneData.text : _sceneData.text);
+		text = new FlxTypeText(textBox.x + 22, textBox.y + 12, 440, _sceneData.text);
+		text.prefix = (_sceneData.namePrefixEnabled) ? _sceneData.name + ': ' : "";
+		text.resetText(_sceneData.text);
+		text.start(0.01);
+		text.skip();
 		text.setFormat('assets/data/Fonts/PKMN-Mystery-Dungeon.ttf', 32, 0xFFFFFFFF, LEFT);
 		text.setBorderStyle(SHADOW, 0xFF000000, 2, 1); // fix this
 		//-----[Layering]-----\\

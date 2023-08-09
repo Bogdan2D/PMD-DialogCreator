@@ -259,8 +259,8 @@ class TexSelectorObject extends FlxSpriteGroup
 		nbIcon.updateHitbox();
 
 		add(imagePreview);
-		if (!_canSwap)
-			add(nbIcon);
+		// if (!_canSwap)
+		// add(nbIcon);
 		add(imageName);
 	}
 }

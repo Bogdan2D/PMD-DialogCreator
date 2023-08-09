@@ -142,31 +142,31 @@ class PlayState extends FlxState
 
 	public function changeBox(newTex):Void
 	{
-		_sceneData.boxTexture = newTex;
-
 		textBox.loadGraphic(newTex);
 		textBox.setGraphicSize(480, 104);
 		textBox.updateHitbox();
+
+		_sceneData.boxTexture = textBox.graphic.assetsKey;
 		// textBox.screenCenter();
 		// textBox.y += 120;
 	}
 
 	public function changePortrait(newTex):Void
 	{
-		_sceneData.portraitTexture = newTex;
-
 		portrait.loadGraphic(newTex);
 		portrait.setGraphicSize(96, 96);
 		portrait.updateHitbox();
+
+		_sceneData.portraitTexture = portrait.graphic.assetsKey;
 	}
 
 	public function changeIcon(newTex):Void
 	{
-		_sceneData.iconTexture = newTex;
-
 		icon.loadGraphic(newTex);
 		icon.setGraphicSize(80, 80);
 		icon.updateHitbox();
+
+		_sceneData.iconTexture = icon.graphic.assetsKey;
 	}
 
 	public function flipIcon(flipped:Bool):Void

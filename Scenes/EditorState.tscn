@@ -15,16 +15,19 @@ texture = ExtResource("1_meh2x")
 offset = Vector2(120, 26)
 script = ExtResource("2_k7uxv")
 
-[node name="Text" type="Label" parent="Textbox"]
-offset_left = 11.0
-offset_top = 6.0
-offset_right = 229.0
-offset_bottom = 46.0
+[node name="Text" type="RichTextLabel" parent="Textbox"]
+offset_left = 12.0
+offset_top = 7.0
+offset_right = 230.0
+offset_bottom = 45.0
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_outline_size = -2
-theme_override_fonts/font = ExtResource("2_j6lyv")
-theme_override_font_sizes/font_size = 16
-text = "Riolu: Blah blah blah...."
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 0
+theme_override_fonts/normal_font = ExtResource("2_j6lyv")
+bbcode_enabled = true
+text = "[color=FFFF00]???[/color]: Blah blah blah...."
 autowrap_mode = 1
 
 [node name="PmdTypeText" type="TextEdit" parent="Textbox"]

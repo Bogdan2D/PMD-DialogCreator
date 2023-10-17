@@ -1,16 +1,14 @@
 extends Sprite2D
 
-
-@onready var pmdText:Label = $Text;
+@onready var pmdText:RichTextLabel = $Text;
 @onready var pmdTypeText:TextEdit = $PmdTypeText;
-
-func _ready():
-	pass # Replace with function body.
-
-
-func _process(delta):
-	pass
-
+#####################
+# PMD YELLOW FFFF00 #
+# PMD BLUE 009EFF   #
+# PMD CYAN  00FFFF  #
+# PMD GREEN 00FF00  #
+#####################
+var prefix:String = "[color=FFFF00]Riolu[/color]: ";
 
 func newTextAdded():
-	pmdText.text = pmdTypeText.text
+	pmdText.text = prefix + pmdTypeText.text

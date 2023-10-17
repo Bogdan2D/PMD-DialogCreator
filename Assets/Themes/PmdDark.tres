@@ -1,0 +1,24 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://dsorw808w1qst"]
+
+[ext_resource type="FontFile" uid="uid://b18bcqecgsw5x" path="res://Assets/Fonts/Wondermail.ttf" id="1_3uc8h"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sr0ix"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_1ksfg"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_qhqse"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+
+[resource]
+default_font = ExtResource("1_3uc8h")
+default_font_size = 16
+LineEdit/colors/selection_color = Color(0.501961, 0.501961, 0.501961, 0)
+LineEdit/fonts/font = ExtResource("1_3uc8h")
+LineEdit/styles/focus = SubResource("StyleBoxEmpty_sr0ix")
+LineEdit/styles/normal = null
+TextEdit/colors/background_color = Color(0, 0, 0, 0.509804)
+TextEdit/styles/focus = SubResource("StyleBoxLine_1ksfg")
+TextEdit/styles/normal = SubResource("StyleBoxLine_qhqse")

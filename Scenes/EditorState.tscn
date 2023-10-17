@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://hy7410lxict8"]
+[gd_scene load_steps=7 format=3 uid="uid://hy7410lxict8"]
 
 [ext_resource type="Texture2D" uid="uid://dg6at41hquvec" path="res://Assets/Images/boxes/eos_M.png" id="1_meh2x"]
 [ext_resource type="FontFile" uid="uid://b18bcqecgsw5x" path="res://Assets/Fonts/Wondermail.ttf" id="2_j6lyv"]
+[ext_resource type="Script" path="res://Scripts/Typing.gd" id="2_k7uxv"]
 [ext_resource type="Texture2D" uid="uid://cwwklr2117ker" path="res://Assets/Images/portraits/eos_M.png" id="2_ru6u0"]
 [ext_resource type="Texture2D" uid="uid://8ocayen5spgw" path="res://Assets/Images/icons/icon_386.png" id="3_0gjvk"]
+[ext_resource type="Theme" uid="uid://dsorw808w1qst" path="res://Assets/Themes/PmdDark.tres" id="6_dovws"]
 
 [node name="EditorState" type="Node2D"]
 
@@ -11,6 +13,7 @@
 position = Vector2(8, 130)
 texture = ExtResource("1_meh2x")
 offset = Vector2(120, 26)
+script = ExtResource("2_k7uxv")
 
 [node name="Text" type="Label" parent="Textbox"]
 offset_left = 11.0
@@ -22,6 +25,16 @@ theme_override_constants/shadow_outline_size = -2
 theme_override_fonts/font = ExtResource("2_j6lyv")
 theme_override_font_sizes/font_size = 16
 text = "Riolu: Blah blah blah...."
+autowrap_mode = 1
+
+[node name="PmdTypeText" type="TextEdit" parent="Textbox"]
+offset_left = 106.0
+offset_top = -112.0
+offset_right = 230.0
+offset_bottom = -5.0
+theme = ExtResource("6_dovws")
+placeholder_text = "Text goes here!"
+wrap_mode = 1
 
 [node name="Portrait" type="Sprite2D" parent="."]
 position = Vector2(12, 68)
@@ -33,3 +46,5 @@ offset = Vector2(24.0759, 24)
 position = Vector2(24.0759, 24)
 scale = Vector2(1.00316, 1)
 texture = ExtResource("3_0gjvk")
+
+[connection signal="text_changed" from="Textbox/PmdTypeText" to="Textbox" method="newTextAdded"]

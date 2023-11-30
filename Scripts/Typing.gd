@@ -12,3 +12,6 @@ var prefix:String = "[color=FFFF00]Riolu[/color]: ";
 
 func newTextAdded():
 	pmdText.text = prefix + pmdTypeText.text
+
+	
+	

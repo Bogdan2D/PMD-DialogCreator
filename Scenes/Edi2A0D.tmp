@@ -1,6 +1,5 @@
-[gd_scene load_steps=8 format=3 uid="uid://hy7410lxict8"]
+[gd_scene load_steps=7 format=3 uid="uid://hy7410lxict8"]
 
-[ext_resource type="Script" path="res://Scripts/EditorState.gd" id="1_ftscl"]
 [ext_resource type="Texture2D" uid="uid://dg6at41hquvec" path="res://Assets/Images/boxes/eos_M.png" id="1_meh2x"]
 [ext_resource type="FontFile" uid="uid://b18bcqecgsw5x" path="res://Assets/Fonts/Wondermail.ttf" id="2_j6lyv"]
 [ext_resource type="Script" path="res://Scripts/Typing.gd" id="2_k7uxv"]
@@ -9,7 +8,6 @@
 [ext_resource type="Theme" uid="uid://dsorw808w1qst" path="res://Assets/Themes/PmdDark.tres" id="6_dovws"]
 
 [node name="EditorState" type="Node2D"]
-script = ExtResource("1_ftscl")
 
 [node name="Textbox" type="Sprite2D" parent="."]
 position = Vector2(8, 130)
@@ -43,31 +41,26 @@ theme_override_font_sizes/font_size = 16
 placeholder_text = "Text goes here!"
 wrap_mode = 1
 
-[node name="Portrait" type="Sprite2D" parent="."]
-position = Vector2(12, 68)
-scale = Vector2(0.998424, 1)
+[node name="Portrait" type="Sprite2D" parent="Textbox"]
+position = Vector2(4, -62)
+scale = Vector2(0.996848, 1)
 texture = ExtResource("2_ru6u0")
 offset = Vector2(24.0759, 24)
 
-[node name="Icon" type="TextureRect" parent="Portrait"]
-custom_minimum_size = Vector2(40, 40)
-offset_left = 4.00644
-offset_top = 4.0
-offset_right = 44.0064
-offset_bottom = 44.0
+[node name="Icon" type="Sprite2D" parent="Textbox/Portrait"]
+position = Vector2(24.0759, 24)
+scale = Vector2(1.00316, 1)
 texture = ExtResource("3_0gjvk")
-expand_mode = 1
-stretch_mode = 5
 
 [node name="FileDialog" type="FileDialog" parent="."]
 title = "Open a File"
 initial_position = 4
 size = Vector2i(600, 500)
-ok_button_text = "Open"
+visible = true
 dialog_autowrap = true
 file_mode = 0
 access = 2
 filters = PackedStringArray("*.png")
 
 [connection signal="text_changed" from="Textbox/PmdTypeText" to="Textbox" method="newTextAdded"]
-[connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]
+[connection signal="files_selected" from="FileDialog" to="Textbox" method="_on_file_dialog_files_selected"]

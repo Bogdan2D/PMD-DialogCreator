@@ -32,9 +32,11 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_constants/shadow_outline_size = 0
+theme_override_constants/line_separation = -1
 theme_override_fonts/normal_font = ExtResource("2_j6lyv")
 bbcode_enabled = true
-text = "[color=FFFF00]???[/color]: Blah blah blah...."
+text = "[color=FFFF00]???[/color]: Blah blah blah....
+a"
 scroll_active = false
 autowrap_mode = 1
 
@@ -55,16 +57,16 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="FileDialog" type="FileDialog" parent="."]
-title = "Open a File"
 initial_position = 4
 size = Vector2i(600, 500)
-ok_button_text = "Open"
+visible = true
+ok_button_text = "Save"
 dialog_autowrap = true
-file_mode = 0
 access = 2
 filters = PackedStringArray("*.png")
 
 [node name="DebugPanel" type="ColorRect" parent="."]
+visible = false
 offset_left = 69.0
 offset_top = 6.0
 offset_right = 250.0

@@ -12,20 +12,28 @@ config_version=5
 
 config/name="Pokémon Mystery Dungeon: DIALOG CREATOR"
 run/main_scene="res://Scenes/EditorState.tscn"
-config/features=PackedStringArray("4.1", "GL Compatibility")
+config/features=PackedStringArray("4.2", "GL Compatibility")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
 config/icon="res://icon.png"
 
 [display]
 
-window/size/viewport_width=341
+window/size/viewport_width=256
 window/size/viewport_height=192
 window/subwindows/embed_subwindows=false
 window/stretch/mode="canvas_items"
 
+[input]
+
+ToggleColorPicker={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194328,"key_label":0,"unicode":0,"echo":false,"script":null)
+]
+}
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=3
-renderer/rendering_method="gl_compatibility"
+renderer/rendering_method="mobile"
 renderer/rendering_method.mobile="gl_compatibility"

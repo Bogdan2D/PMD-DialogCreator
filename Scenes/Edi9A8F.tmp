@@ -12,9 +12,8 @@
 [node name="EditorState" type="Node2D"]
 script = ExtResource("1_ftscl")
 
-[node name="SCREENSHOT_MANAGER" type="Node" parent="." node_paths=PackedStringArray("debugShit")]
+[node name="SCREENSHOT_MANAGER" type="Node" parent="."]
 script = ExtResource("2_pud7g")
-debugShit = NodePath("../DebugPanel")
 
 [node name="SaveWindow" type="FileDialog" parent="SCREENSHOT_MANAGER"]
 initial_position = 4

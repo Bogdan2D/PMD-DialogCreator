@@ -23,6 +23,12 @@ func prefixTextChanged(new_text):
 
 func onPrefixColorChanged(color):
 	prefixColor = color.to_html(false);
+	
+	if(prefixVisible):
+		prefixTextChanged($"../DebugPanel/TextEditPanel/PrefixEdit".text);
+	else:
+		prefix = "";
+		newTextAdded();
 
 
 var prefixVisible:bool = true;

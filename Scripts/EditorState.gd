@@ -7,8 +7,8 @@ extends Node2D
 @onready var textbox = $Textbox;
 
 var colorSwatches = [
-	Color(255, 255, 0, 1),
-	Color(0, 255, 255, 1),
+	Color(248, 248, 0, 1),
+	Color(0, 152, 248, 1),
 	Color(0, 255, 0, 1)
 ]
 
@@ -39,7 +39,6 @@ func _process(delta):
 			colorPickerLerpX = -200;
 			iconAlphaLerp = 255;
 		
-
 func _on_file_dialog_file_selected(path):
 	print(path);
 	var image = Image.new()

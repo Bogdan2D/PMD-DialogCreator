@@ -51,3 +51,14 @@ func _on_file_dialog_file_selected(path):
 
 func onColorInsert():
 	textboxText.text += '[color=' + str(txtColorPicker.color.to_html(false)) + '] [/color]';
+
+
+func _on_change_box_btn_pressed():
+	print("A");
+	if $DebugPanel/ChangeBoxBTN.texture_normal.resource_path == "res://Assets/Images/icon_M.png":
+		$DebugPanel/ChangeBoxBTN.texture_normal = load("res://Assets/Images/icon_F.png")
+		$Textbox.texture = load("res://Assets/Images/boxes/eos_F.png")
+	else:
+		$DebugPanel/ChangeBoxBTN.texture_normal = load("res://Assets/Images/icon_M.png")
+		$Textbox.texture = load("res://Assets/Images/boxes/eos_M.png")
+		

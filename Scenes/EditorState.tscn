@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://hy7410lxict8"]
+[gd_scene load_steps=10 format=3 uid="uid://hy7410lxict8"]
 
 [ext_resource type="Script" path="res://Scripts/EditorState.gd" id="1_ftscl"]
 [ext_resource type="Texture2D" uid="uid://dg6at41hquvec" path="res://Assets/Images/boxes/eos_M.png" id="1_meh2x"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cwwklr2117ker" path="res://Assets/Images/portraits/eos_M.png" id="2_ru6u0"]
 [ext_resource type="Texture2D" uid="uid://8ocayen5spgw" path="res://Assets/Images/icons/icon_386.png" id="3_0gjvk"]
 [ext_resource type="Theme" uid="uid://dsorw808w1qst" path="res://Assets/Themes/PmdDark.tres" id="6_dovws"]
+[ext_resource type="Texture2D" uid="uid://c0lfecjkhwt1c" path="res://Assets/Images/icon_M.png" id="9_unwmv"]
 
 [node name="EditorState" type="Node2D"]
 script = ExtResource("1_ftscl")
@@ -45,7 +46,7 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_constants/shadow_outline_size = 0
-theme_override_constants/line_separation = -1
+theme_override_constants/line_separation = 0
 theme_override_fonts/normal_font = ExtResource("2_j6lyv")
 bbcode_enabled = true
 text = "[color=FFFF00]???[/color]: Blah blah blah...."
@@ -187,9 +188,19 @@ theme = ExtResource("6_dovws")
 theme_override_font_sizes/font_size = 16
 text = "Insert"
 
+[node name="ChangeBoxBTN" type="TextureButton" parent="DebugPanel"]
+layout_mode = 0
+offset_left = 169.0
+offset_top = 105.0
+offset_right = 205.0
+offset_bottom = 141.0
+scale = Vector2(0.3, 0.3)
+texture_normal = ExtResource("9_unwmv")
+
 [connection signal="file_selected" from="SCREENSHOT_MANAGER/SaveWindow" to="SCREENSHOT_MANAGER" method="_on_save_window_file_selected"]
 [connection signal="text_changed" from="DebugPanel/TextEditPanel/PmdTypeText" to="Textbox" method="newTextAdded"]
 [connection signal="text_changed" from="DebugPanel/TextEditPanel/PrefixEdit" to="Textbox" method="prefixTextChanged"]
 [connection signal="color_changed" from="DebugPanel/TextEditPanel/PrefixColorPicker" to="Textbox" method="onPrefixColorChanged"]
 [connection signal="toggled" from="DebugPanel/TextEditPanel/PrefixToggle" to="Textbox" method="onPrefixToggled"]
 [connection signal="pressed" from="DebugPanel/TxtColorPicker/Insert" to="." method="onColorInsert"]
+[connection signal="pressed" from="DebugPanel/ChangeBoxBTN" to="." method="_on_change_box_btn_pressed"]
